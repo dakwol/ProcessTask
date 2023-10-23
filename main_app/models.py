@@ -37,7 +37,7 @@ class Service(models.Model):
 
 class Process(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название процесса", blank=True, null=True)
-    service = models.ForeignKey(Service, on_delete=models.CASCADE, verbose_name="Услуга, на которую ссылается",
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, verbose_name="Услуга",
                                 blank=True, null=True, related_name='processes')
     status = models.CharField(max_length=20, choices=SERVICE_STATUS_CHOICES, default='in_queue', verbose_name="Статус")
     client = models.CharField(max_length=20, choices=CLIENT_CHOICES, verbose_name="Клиент")

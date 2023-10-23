@@ -4,7 +4,7 @@ import string
 from rest_framework.metadata import SimpleMetadata
 from collections import OrderedDict
 from django.utils.encoding import force_str
-from rest_framework import serializers
+from rest_framework import serializers, viewsets
 
 
 class CustomOptionsMetadata(SimpleMetadata):
@@ -70,8 +70,23 @@ class CustomOptionsMetadata(SimpleMetadata):
         return field_info
 
 
+class CustomModelViewSet(viewsets.ModelViewSet):
+    serializer_list = {}
+
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return self.serializer_list.get('create', self.serializer_class)
+        elif self.action in ['update', 'partial_update']:
+            return self.serializer_list.get('update', self.serializer_class)
+        return self.serializer_list.get(self.action, self.serializer_class)
+
+
 def generate_identifier():
-    # Генерируем идентификатор в формате xxx.xx.xxx
     part1 = ''.join(random.choices(string.digits, k=3))
     part2 = ''.join(random.choices(string.digits, k=2))
     part3 = ''.join(random.choices(string.digits, k=3))

@@ -50,7 +50,3 @@ class ServiceViewSet(CustomModelViewSet):
         queryset = LifeSituation.objects.filter(user=user)
         return queryset
 
-    def perform_create(self, serializer):
-        serializer = self.get_serializer()
-        if serializer.is_valid():
-            serializer.save(user=self.request.user)

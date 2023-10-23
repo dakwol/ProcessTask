@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, LifeSituation
+from .models import CustomUser, LifeSituation, Process, Service
 
 
 class CustomUserAdmin(admin.ModelAdmin):
@@ -20,5 +20,24 @@ class LifeSituationAdmin(admin.ModelAdmin):
     list_filter = ('user',)
 
 
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'service_type', 'regulating_act', 'lifesituation', 'user')
+    search_fields = ('name', 'service_type', 'regulating_act', 'user__username')
+    list_filter = ('service_type', 'lifesituation', 'user')
+
+
+class ProcessAdmin(admin.ModelAdmin):
+    list_display = ('name', 'service', 'status', 'client', 'responsible_authority', 'department')
+    search_fields = ('name', 'service__name', 'client', 'responsible_authority', 'department')
+    list_filter = ('status', 'client', 'digital_format')
+    fieldsets = (
+        (None, {'fields': ('name', 'service', 'status', 'client')}),
+        ('Responsibility', {'fields': ('responsible_authority', 'department')}),
+        ('Digital Format', {'fields': ('digital_format', 'digital_format_link')}),
+    )
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(LifeSituation, LifeSituationAdmin)
+admin.site.register(Service, ServiceAdmin)
+admin.site.register(Process, ProcessAdmin)

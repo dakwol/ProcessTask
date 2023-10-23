@@ -2,9 +2,11 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from .models import LifeSituation, Service
+from .models import LifeSituation, Service, Process
 from .serializers.life_situation_serializers import LifeSituationRetrieveSerializer, LifeSituationCreateSerializer, \
     LifeSituationUpdateSerializer, LifeSituationSerializer, LifeSituationListSerializer
+from .serializers.process_serializers import ProcessSerializer, ProcessRetrieveSerializer, ProcessCreateSerializer, \
+    ProcessUpdateSerializer
 from .serializers.service_serializers import ServiceSerializer, ServiceRetrieveSerializer, ServiceCreateSerializer, \
     ServiceUpdateSerializer
 from .utils import CustomOptionsMetadata, generate_identifier, CustomModelViewSet
@@ -50,3 +52,18 @@ class ServiceViewSet(CustomModelViewSet):
         queryset = LifeSituation.objects.filter(user=user)
         return queryset
 
+
+class ProcessViewSet(CustomModelViewSet):
+    queryset = Process.objects.all()
+    serializer_class = ProcessSerializer
+    serializer_list = {
+        'retrieve': ProcessRetrieveSerializer,
+        'create': ProcessCreateSerializer,
+        'update': ProcessUpdateSerializer,
+    }
+    permission_classes = [permissions.IsAuthenticated]
+
+    @action(detail=False, methods=['get'])
+    def generate_identifier(self, request):
+        identifier = generate_identifier()
+        return Response({'identifier': identifier}, status=status.HTTP_200_OK)

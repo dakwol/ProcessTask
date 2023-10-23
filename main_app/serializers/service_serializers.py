@@ -1,11 +1,20 @@
 from rest_framework import serializers
 from main_app.models import Service
+from main_app.serializers.process_serializers import ProcessRetrieveSerializer
 
 
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
         fields = '__all__'
+
+
+class ServiceListSerializer(ServiceSerializer):
+    processes = ProcessRetrieveSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Service
+        fields = ['id', 'service_type', 'name', 'regulating_act', 'processes']
 
 
 class ServiceRetrieveSerializer(ServiceSerializer):

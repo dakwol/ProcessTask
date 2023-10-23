@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from main_app.models import LifeSituation
-from main_app.serializers.service_serializers import ServiceRetrieveSerializer
+from main_app.serializers.service_serializers import ServiceRetrieveSerializer, ServiceListSerializer
 
 
 class LifeSituationSerializer(serializers.ModelSerializer):
@@ -10,7 +10,7 @@ class LifeSituationSerializer(serializers.ModelSerializer):
 
 
 class LifeSituationListSerializer(LifeSituationSerializer):
-    services = ServiceRetrieveSerializer(many=True, read_only=True)
+    services = ServiceListSerializer(many=True, read_only=True)
 
     class Meta:
         model = LifeSituation

@@ -31,9 +31,10 @@ class ProcessAdmin(admin.ModelAdmin):
     search_fields = ('name', 'service__name', 'client', 'responsible_authority', 'department')
     list_filter = ('status', 'client', 'digital_format')
     fieldsets = (
-        (None, {'fields': ('name', 'service', 'status', 'client')}),
+        (None, {'fields': ('name', 'service', 'status', 'client', 'identifier')}),
         ('Responsibility', {'fields': ('responsible_authority', 'department')}),
         ('Digital Format', {'fields': ('digital_format', 'digital_format_link')}),
+        ('Data', {'fields': ('client_value', 'input_data', 'output_data', 'related_processes')}),
     )
 
 

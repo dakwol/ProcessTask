@@ -72,7 +72,7 @@ class CustomOptionsMetadata(SimpleMetadata):
 
 class CustomModelViewSet(viewsets.ModelViewSet):
     serializer_list = {}
-
+    metadata_class = CustomOptionsMetadata
     def get_serializer(self, *args, **kwargs):
         serializer_class = self.get_serializer_class()
         kwargs['context'] = self.get_serializer_context()

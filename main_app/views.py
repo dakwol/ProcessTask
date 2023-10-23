@@ -21,7 +21,7 @@ class LifeSituationViewSet(CustomModelViewSet):
         'create': LifeSituationCreateSerializer,
         'update': LifeSituationUpdateSerializer,
     }
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
@@ -43,7 +43,7 @@ class ServiceViewSet(CustomModelViewSet):
         'create': ServiceCreateSerializer,
         'update': ServiceUpdateSerializer,
     }
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
@@ -60,7 +60,7 @@ class ProcessViewSet(CustomModelViewSet):
         'create': ProcessCreateSerializer,
         'update': ProcessUpdateSerializer,
     }
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     @action(detail=False, methods=['get'])
     def generate_identifier(self, request):

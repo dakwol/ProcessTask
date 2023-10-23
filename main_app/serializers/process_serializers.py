@@ -8,11 +8,19 @@ class ProcessSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProcessDataSerializer(ProcessSerializer):
+    class Meta:
+        model = Process
+        fields = ['client_value', 'input_data', 'output_data', 'related_processes']
+
+
 class ProcessRetrieveSerializer(ProcessSerializer):
+    data = ProcessDataSerializer(allow_null=True)
+
     class Meta:
         model = Process
         fields = ['id', 'name', 'status', 'client', 'responsible_authority', 'department', 'digital_format',
-                  'digital_format_link', 'identifier']
+                  'digital_format_link', 'identifier', 'data']
 
 
 class ProcessCreateSerializer(ProcessSerializer):
@@ -23,7 +31,9 @@ class ProcessCreateSerializer(ProcessSerializer):
 
 
 class ProcessUpdateSerializer(ProcessSerializer):
+    data = ProcessDataSerializer(allow_null=True)
+
     class Meta:
         model = Process
         fields = ['id', 'name', 'status', 'client', 'responsible_authority', 'department', 'digital_format',
-                  'digital_format_link']
+                  'digital_format_link', 'data']

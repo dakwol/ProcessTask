@@ -19,7 +19,6 @@ class CustomUser(AbstractUser):
         return self.get_full_name()
 
 
-
 class LifeSituation(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название жизненной ситуации", blank=True, null=True, )
     identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True, )
@@ -62,5 +61,11 @@ class Process(models.Model):
     digital_format_link = models.URLField(verbose_name="Ссылка на размещение в цифровом формате", blank=True, null=True)
     identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True, )
 
+    # Данные
+    client_value = models.TextField(verbose_name="Ценность для клиента", blank=True, null=True)
+    input_data = models.TextField(verbose_name="Данные на входе", blank=True, null=True)
+    output_data = models.TextField(verbose_name="Данные на выходе", blank=True, null=True)
+    related_processes = models.TextField(verbose_name="Связанные процессы", blank=True, null=True)
+
     def __str__(self):
-        return self.name
+        return self.identifier

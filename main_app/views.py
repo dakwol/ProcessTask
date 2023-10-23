@@ -2,14 +2,24 @@ from rest_framework import permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from .models import LifeSituation, Service, Process
+from .models import LifeSituation, Service, Process, CustomUser
 from .serializers.life_situation_serializers import LifeSituationRetrieveSerializer, LifeSituationCreateSerializer, \
     LifeSituationUpdateSerializer, LifeSituationSerializer, LifeSituationListSerializer
 from .serializers.process_serializers import ProcessSerializer, ProcessRetrieveSerializer, ProcessCreateSerializer, \
     ProcessUpdateSerializer
 from .serializers.service_serializers import ServiceSerializer, ServiceRetrieveSerializer, ServiceCreateSerializer, \
     ServiceUpdateSerializer
+from .serializers.user_serialzers import UserSerializer, UserRetrieveSerializer
 from .utils import generate_identifier, CustomModelViewSet
+
+
+class UserViewSet(CustomModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+    serializer_list = {
+        'retrieve': UserRetrieveSerializer,
+    }
+    #permission_classes = [permissions.IsAuthenticated]
 
 
 class LifeSituationViewSet(CustomModelViewSet):

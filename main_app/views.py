@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions, status
+from rest_framework import permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -9,12 +9,11 @@ from .serializers.process_serializers import ProcessSerializer, ProcessRetrieveS
     ProcessUpdateSerializer
 from .serializers.service_serializers import ServiceSerializer, ServiceRetrieveSerializer, ServiceCreateSerializer, \
     ServiceUpdateSerializer
-from .utils import CustomOptionsMetadata, generate_identifier, CustomModelViewSet
+from .utils import generate_identifier, CustomModelViewSet
 
 
 class LifeSituationViewSet(CustomModelViewSet):
     queryset = LifeSituation.objects.all()
-    metadata_class = CustomOptionsMetadata
     serializer_class = LifeSituationSerializer
     serializer_list = {
         'list': LifeSituationListSerializer,
@@ -38,7 +37,6 @@ class LifeSituationViewSet(CustomModelViewSet):
 class ServiceViewSet(CustomModelViewSet):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
-    metadata_class = CustomOptionsMetadata
     serializer_list = {
         'list': ServiceRetrieveSerializer,
         'retrieve': ServiceRetrieveSerializer,
@@ -55,7 +53,6 @@ class ServiceViewSet(CustomModelViewSet):
 
 class ProcessViewSet(CustomModelViewSet):
     queryset = Process.objects.all()
-    metadata_class = CustomOptionsMetadata
     serializer_class = ProcessSerializer
     serializer_list = {
         'list': ProcessRetrieveSerializer,

@@ -7,11 +7,19 @@ from main_app.enums import SERVICE_TYPES, SERVICE_STATUS_CHOICES, CLIENT_CHOICES
 
 
 class CustomUser(AbstractUser):
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        blank=True, null=True,
+    )
     patronymic = models.CharField(max_length=30, blank=True, null=True, verbose_name="Отчество")
+    email = models.EmailField(unique=True)
 
     def __str__(self):
         return self.get_full_name()
 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
 class LifeSituation(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название жизненной ситуации", blank=True, null=True, )

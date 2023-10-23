@@ -55,8 +55,10 @@ class ServiceViewSet(CustomModelViewSet):
 
 class ProcessViewSet(CustomModelViewSet):
     queryset = Process.objects.all()
+    metadata_class = CustomOptionsMetadata
     serializer_class = ProcessSerializer
     serializer_list = {
+        'list': ProcessRetrieveSerializer,
         'retrieve': ProcessRetrieveSerializer,
         'create': ProcessCreateSerializer,
         'update': ProcessUpdateSerializer,

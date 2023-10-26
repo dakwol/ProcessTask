@@ -129,7 +129,7 @@ SIMPLE_JWT = {
 '''CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Замените на URL вашего фронтенда
 ]'''
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_METHODS = [
     'DELETE',

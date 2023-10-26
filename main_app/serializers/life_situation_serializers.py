@@ -14,13 +14,13 @@ class LifeSituationListSerializer(LifeSituationSerializer):
 
     class Meta:
         model = LifeSituation
-        fields = ['id', 'name', 'identifier', 'services']
+        fields = ['id', 'name', 'services']
 
 
 class LifeSituationRetrieveSerializer(LifeSituationSerializer):
     class Meta:
         model = LifeSituation
-        fields = ['id', 'name', 'identifier']
+        fields = ['id', 'name']
 
 
 class LifeSituationCreateSerializer(LifeSituationSerializer):

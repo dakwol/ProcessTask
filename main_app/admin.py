@@ -1,22 +1,27 @@
 from django.contrib import admin
-from .models import CustomUser, LifeSituation, Process, Service
+from .models import CustomUser, LifeSituation, Process, Service, Organization
+
+
+class OrganizationAdmin(admin.ModelAdmin):
+    list_display = ('name', 'code')
+    search_fields = ('name', 'code')
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'first_name', 'last_name', 'email', 'patronymic')
-    search_fields = ('username', 'first_name', 'last_name', 'email', 'patronymic')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', 'date_joined')
+    list_display = ('username', 'first_name', 'last_name', 'email', 'patronymic', 'organization')
+    search_fields = ('username', 'first_name', 'last_name', 'email', 'patronymic', 'organization__name')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', 'date_joined', 'organization')
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'patronymic')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'patronymic', 'organization')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
 
 
 class LifeSituationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'identifier', 'user')
-    search_fields = ('name', 'identifier', 'user__username')
+    list_display = ('name', 'user')
+    search_fields = ('name', 'user__username')
     list_filter = ('user',)
 
 
@@ -27,17 +32,21 @@ class ServiceAdmin(admin.ModelAdmin):
 
 
 class ProcessAdmin(admin.ModelAdmin):
-    list_display = ('name', 'service', 'status', 'client', 'responsible_authority', 'department')
-    search_fields = ('name', 'service__name', 'client', 'responsible_authority', 'department')
-    list_filter = ('status', 'client', 'digital_format')
+    list_display = (
+        'name', 'service', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority', 'department',
+        'is_digital_format', 'is_non_digital_format')
+    search_fields = ('name', 'service__name', 'responsible_authority', 'department')
+    list_filter = ('status', 'is_internal_client', 'is_external_client', 'is_digital_format', 'is_non_digital_format')
+
     fieldsets = (
-        (None, {'fields': ('name', 'service', 'status', 'client', 'identifier')}),
+        (None, {'fields': ('name', 'service', 'status', 'identifier')}),
         ('Responsibility', {'fields': ('responsible_authority', 'department')}),
-        ('Digital Format', {'fields': ('digital_format', 'digital_format_link')}),
+        ('Digital Format', {'fields': ('is_digital_format', 'is_non_digital_format', 'digital_format_link')}),
         ('Data', {'fields': ('client_value', 'input_data', 'output_data', 'related_processes')}),
     )
 
 
+admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(LifeSituation, LifeSituationAdmin)
 admin.site.register(Service, ServiceAdmin)

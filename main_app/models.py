@@ -6,6 +6,14 @@ from django.contrib.auth.models import AbstractUser
 from main_app.enums import SERVICE_TYPES, SERVICE_STATUS_CHOICES, CLIENT_CHOICES, DIGITAL_FORMAT_CHOICES
 
 
+class Organization(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Название организации", blank=True, null=True,)
+    code = models.CharField(max_length=50, verbose_name="Код организации", unique=True,)
+
+    def __str__(self):
+        return self.code
+
+
 class CustomUser(AbstractUser):
     username = models.CharField(
         max_length=150,
@@ -14,6 +22,7 @@ class CustomUser(AbstractUser):
     )
     patronymic = models.CharField(max_length=30, blank=True, null=True, verbose_name="Отчество")
     email = models.EmailField(unique=True)
+    organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Организация")
 
     def __str__(self):
         return self.get_full_name()
@@ -21,11 +30,10 @@ class CustomUser(AbstractUser):
 
 class LifeSituation(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название жизненной ситуации", blank=True, null=True, )
-    identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True, )
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
 
     def __str__(self):
-        return self.identifier
+        return self.name
 
 
 class Service(models.Model):
@@ -45,19 +53,17 @@ class Process(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название процесса", blank=True, null=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, verbose_name="Услуга",
                                 blank=True, null=True, related_name='processes')
-    status = models.CharField(max_length=20, choices=SERVICE_STATUS_CHOICES, default='in_queue', verbose_name="Статус")
-    client = models.CharField(max_length=20, choices=CLIENT_CHOICES, verbose_name="Клиент")
+    status = models.CharField(max_length=20, choices=SERVICE_STATUS_CHOICES, default='in_queue', verbose_name="Статус",
+                              blank=True, null=True)
+    is_internal_client = models.BooleanField(default=False, verbose_name="Внутренний клиент", blank=True, null=True)
+    is_external_client = models.BooleanField(default=False, verbose_name="Внешний клиент", blank=True, null=True)
     responsible_authority = models.CharField(max_length=255, verbose_name="Орган, ответственный за процесс", blank=True,
                                              null=True)
     department = models.CharField(max_length=255, verbose_name="Структурное подразделение органа", blank=True,
                                   null=True)
-    digital_format = models.CharField(
-        max_length=20,
-        choices=DIGITAL_FORMAT_CHOICES,
-        default='digital',
-        verbose_name="Цифровой формат",
-        blank=True, null=True
-    )
+    is_digital_format = models.BooleanField(default=False, verbose_name="Цифровой формат", blank=True, null=True)
+    is_non_digital_format = models.BooleanField(default=False, verbose_name="Не цифровой формат", blank=True, null=True)
+
     digital_format_link = models.URLField(verbose_name="Ссылка на размещение в цифровом формате", blank=True, null=True)
     identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True, )
 

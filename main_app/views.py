@@ -19,7 +19,7 @@ class UserViewSet(CustomModelViewSet):
     serializer_list = {
         'retrieve': UserRetrieveSerializer,
     }
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class LifeSituationViewSet(CustomModelViewSet):
@@ -37,11 +37,6 @@ class LifeSituationViewSet(CustomModelViewSet):
         user = self.request.user
         queryset = LifeSituation.objects.filter(user=user)
         return queryset
-
-    @action(detail=False, methods=['get'])
-    def generate_identifier(self, request):
-        identifier = generate_identifier()
-        return Response({'identifier': identifier}, status=status.HTTP_200_OK)
 
 
 class ServiceViewSet(CustomModelViewSet):
@@ -74,5 +69,5 @@ class ProcessViewSet(CustomModelViewSet):
 
     @action(detail=False, methods=['get'])
     def generate_identifier(self, request):
-        identifier = generate_identifier()
+        identifier = generate_identifier(user=request.user)
         return Response({'identifier': identifier}, status=status.HTTP_200_OK)

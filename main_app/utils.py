@@ -73,6 +73,7 @@ class CustomOptionsMetadata(SimpleMetadata):
 class CustomModelViewSet(viewsets.ModelViewSet):
     serializer_list = {}
     metadata_class = CustomOptionsMetadata
+
     def get_serializer(self, *args, **kwargs):
         serializer_class = self.get_serializer_class()
         kwargs['context'] = self.get_serializer_context()
@@ -86,9 +87,14 @@ class CustomModelViewSet(viewsets.ModelViewSet):
         return self.serializer_list.get(self.action, self.serializer_class)
 
 
-def generate_identifier():
-    part1 = ''.join(random.choices(string.digits, k=3))
-    part2 = ''.join(random.choices(string.digits, k=2))
-    part3 = ''.join(random.choices(string.digits, k=3))
-    identifier = f"{part1}.{part2}.{part3}"
+def generate_identifier(user=None):
+    last_process = Process.objects.filter(service__user=user).order_by('-id').first()
+
+    if last_process:
+        process_id = last_process.id + 1
+    else:
+        process_id = 1
+
+    identifier = f"{user.organization.code}.{user.id}.{process_id}"
+
     return identifier

@@ -19,15 +19,16 @@ class ProcessRetrieveSerializer(ProcessSerializer):
 
     class Meta:
         model = Process
-        fields = ['id', 'name', 'status', 'client', 'responsible_authority', 'department', 'digital_format',
-                  'digital_format_link', 'identifier', 'data']
+        fields = ['id', 'name', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority',
+                  'department', 'is_digital_format', 'is_non_digital_format', 'digital_format_link', 'identifier',
+                  'data']
 
 
 class ProcessCreateSerializer(ProcessSerializer):
     class Meta:
         model = Process
-        fields = ['name', 'service', 'status', 'client', 'responsible_authority', 'department', 'digital_format',
-                  'digital_format_link', 'identifier']
+        fields = ['name', 'service', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority',
+                  'department', 'is_digital_format', 'is_non_digital_format', 'digital_format_link', 'identifier']
 
 
 class ProcessUpdateSerializer(ProcessSerializer):
@@ -35,5 +36,5 @@ class ProcessUpdateSerializer(ProcessSerializer):
 
     class Meta:
         model = Process
-        fields = ['id', 'name', 'status', 'client', 'responsible_authority', 'department', 'digital_format',
-                  'digital_format_link', 'data']
+        fields = ['id', 'name', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority', 'department',
+                  'is_digital_format', 'is_non_digital_format', 'digital_format_link', 'data']

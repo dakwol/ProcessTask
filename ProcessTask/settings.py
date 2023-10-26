@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-u*dj5xyj4#dk=4y!gw@@hou#zf=la6!5($ucgn$fzw&j8@@^-(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -126,9 +126,6 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME_LAZY': timedelta(days=1),
 }
 
-'''CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Замените на URL вашего фронтенда
-]'''
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_METHODS = [

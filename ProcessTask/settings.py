@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'post_office',
     'corsheaders',
     'main_app'
 ]
@@ -163,3 +164,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'main_app.CustomUser'
 
+EMAIL_BACKEND = 'post_office.EmailBackend'
+DEFAULT_FROM_EMAIL = 'info@bel-mail.ru'
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_TIMEOUT = 30
+EMAIL_HOST = 'smtps.dashasender.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = '89205731783@mail.ru'
+# EMAIL_HOST_PASSWORD = 'Astra1988!'
+EMAIL_HOST_PASSWORD = 'd0583b8b07be826de4da838a26c60cd5'

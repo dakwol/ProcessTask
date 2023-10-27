@@ -13,6 +13,8 @@ from .serializers.user_serialzers import UserSerializer, UserRetrieveSerializer
 from .utils import generate_identifier, CustomModelViewSet
 import random
 import string
+from post_office import mail
+from django.conf import settings
 
 
 class UserViewSet(CustomModelViewSet):
@@ -26,23 +28,21 @@ class UserViewSet(CustomModelViewSet):
     @action(detail=True, methods=['post'])
     def reset_password(self, request, pk=None):
         user = self.get_object()
-        print('user', user)
         email = request.data.get('email')
-        print('email', email)
         new_password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
-        print('new_password', new_password)
 
         user.set_password(new_password)
         user.save()
-        print('user.save()', user)
 
-        recipients = mail.send(
-            email, DEFAULT_FROM_EMAIL,
+        mail.send(
+            email,
+            settings.DEFAULT_FROM_EMAIL,
             subject='Сброс пароля',
             message=f'Ваш новый пароль: {new_password}',
+            html_message=f'Ваш новый пароль: {new_password}',
             priority='now')
 
-        Response(recipients, status=status.HTTP_201_CREATED)
+        return Response({}, status=status.HTTP_200_OK)
 
 
 class LifeSituationViewSet(CustomModelViewSet):

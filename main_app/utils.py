@@ -88,7 +88,7 @@ class CustomModelViewSet(viewsets.ModelViewSet):
 
 
 def generate_identifier(user=None):
-    last_process = Process.objects.filter(service__user=user).order_by('-id').first()
+    last_process = Process.objects.filter(service__user__organization=user.organization).order_by('-id').first()
 
     if last_process:
         process_id = last_process.id + 1

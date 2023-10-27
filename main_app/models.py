@@ -7,8 +7,8 @@ from main_app.enums import SERVICE_TYPES, SERVICE_STATUS_CHOICES, CLIENT_CHOICES
 
 
 class Organization(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Название организации", blank=True, null=True,)
-    code = models.CharField(max_length=50, verbose_name="Код организации", unique=True,)
+    name = models.CharField(max_length=255, verbose_name="Название организации", blank=True, null=True, )
+    code = models.CharField(max_length=50, verbose_name="Код организации", unique=True, )
 
     def __str__(self):
         return self.code
@@ -21,8 +21,12 @@ class CustomUser(AbstractUser):
         blank=True, null=True,
     )
     patronymic = models.CharField(max_length=30, blank=True, null=True, verbose_name="Отчество")
-    email = models.EmailField(unique=True)
-    organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Организация")
+    email = models.EmailField(unique=True, blank=False, null=False, verbose_name="Email")
+    organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, blank=True, null=True,
+                                     verbose_name="Организация")
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.get_full_name()

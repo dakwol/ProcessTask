@@ -35,8 +35,13 @@ class LifeSituationViewSet(CustomModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = LifeSituation.objects.filter(user=user)
-        return queryset
+        organization = user.organization
+        queryset = LifeSituation.objects.filter(user__organization=organization)
+        page = self.paginate_queryset(queryset)
+        serializer = LifeSituationListSerializer(page, many=True) if page else LifeSituationListSerializer(queryset,
+                                                                                                           many=True)
+        return self.get_paginated_response(serializer.data) if page else Response(serializer.data,
+                                                                                  status=status.HTTP_200_OK)
 
 
 class ServiceViewSet(CustomModelViewSet):
@@ -52,8 +57,13 @@ class ServiceViewSet(CustomModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = LifeSituation.objects.filter(user=user)
-        return queryset
+        organization = user.organization
+        queryset = Service.objects.filter(user__organization=organization)
+        page = self.paginate_queryset(queryset)
+        serializer = ServiceRetrieveSerializer(page, many=True) if page else ServiceRetrieveSerializer(queryset,
+                                                                                                       many=True)
+        return self.get_paginated_response(serializer.data) if page else Response(serializer.data,
+                                                                                  status=status.HTTP_200_OK)
 
 
 class ProcessViewSet(CustomModelViewSet):

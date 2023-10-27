@@ -14,19 +14,19 @@ class LifeSituationListSerializer(LifeSituationSerializer):
 
     class Meta:
         model = LifeSituation
-        fields = ['id', 'name', 'services']
+        fields = ['id', 'name', 'identifier', 'services']
 
 
 class LifeSituationRetrieveSerializer(LifeSituationSerializer):
     class Meta:
         model = LifeSituation
-        fields = ['id', 'name']
+        fields = ['id', 'identifier', 'name']
 
 
 class LifeSituationCreateSerializer(LifeSituationSerializer):
     class Meta:
         model = LifeSituation
-        fields = ['name', 'identifier']
+        fields = ['name']
 
     def create(self, validated_data):
         user = self.context['request'].user

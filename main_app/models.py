@@ -34,6 +34,8 @@ class CustomUser(AbstractUser):
 
 class LifeSituation(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название жизненной ситуации", blank=True, null=True, )
+    identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True,
+                                  default="017.04.001")
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
 
     def __str__(self):

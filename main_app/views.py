@@ -56,6 +56,10 @@ class LifeSituationViewSet(CustomModelViewSet):
     }
     permission_classes = [permissions.IsAuthenticated]
 
+    @action(detail=False, methods=['get'])
+    def generate_identifier(self, request):
+        return Response({'identifier': '017.04.001'}, status=status.HTTP_200_OK)
+
     def get_queryset(self):
         user = self.request.user
         organization = user.organization

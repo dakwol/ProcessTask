@@ -26,7 +26,7 @@ class LifeSituationRetrieveSerializer(LifeSituationSerializer):
 class LifeSituationCreateSerializer(LifeSituationSerializer):
     class Meta:
         model = LifeSituation
-        fields = ['name']
+        fields = ['name', 'identifier']
 
     def create(self, validated_data):
         user = self.context['request'].user

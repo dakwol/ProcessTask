@@ -36,7 +36,13 @@ class LifeSituationViewSet(CustomModelViewSet):
     def get_queryset(self):
         user = self.request.user
         organization = user.organization
+        search_string = self.request.query_params.get('search', None)
+
         queryset = LifeSituation.objects.filter(user__organization=organization)
+
+        if search_string:
+            queryset = queryset.filter(Q(name__icontains=search_string) | Q(services__name__icontains=search_string))
+
         page = self.paginate_queryset(queryset)
         serializer = LifeSituationListSerializer(page, many=True) if page else LifeSituationListSerializer(queryset,
                                                                                                            many=True)
@@ -58,7 +64,13 @@ class ServiceViewSet(CustomModelViewSet):
     def get_queryset(self):
         user = self.request.user
         organization = user.organization
+        search_string = self.request.query_params.get('search', None)
+
         queryset = Service.objects.filter(user__organization=organization)
+
+        if search_string:
+            queryset = queryset.filter(Q(name__icontains=search_string))
+
         page = self.paginate_queryset(queryset)
         serializer = ServiceRetrieveSerializer(page, many=True) if page else ServiceRetrieveSerializer(queryset,
                                                                                                        many=True)

@@ -6,6 +6,8 @@ from collections import OrderedDict
 from django.utils.encoding import force_str
 from rest_framework import serializers, viewsets
 
+from main_app.models import Process
+
 
 class CustomOptionsMetadata(SimpleMetadata):
     def determine_metadata(self, request, view):

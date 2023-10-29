@@ -8,12 +8,12 @@ class OrganizationAdmin(admin.ModelAdmin):
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'first_name', 'last_name', 'email', 'patronymic', 'organization')
-    search_fields = ('username', 'first_name', 'last_name', 'email', 'patronymic', 'organization__name')
+    list_display = ('email', 'first_name', 'last_name', 'patronymic', 'organization')
+    search_fields = ('email', 'first_name', 'last_name', 'patronymic', 'organization__name')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', 'date_joined', 'organization')
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'patronymic', 'organization')}),
+        (None, {'fields': ('email', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'patronymic', 'organization')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
@@ -21,13 +21,13 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 class LifeSituationAdmin(admin.ModelAdmin):
     list_display = ('name', 'user')
-    search_fields = ('name', 'user__username')
+    search_fields = ('name', 'user__email')
     list_filter = ('user',)
 
 
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'service_type', 'regulating_act', 'lifesituation', 'user')
-    search_fields = ('name', 'service_type', 'regulating_act', 'user__username')
+    search_fields = ('name', 'service_type', 'regulating_act', 'user__email')
     list_filter = ('service_type', 'lifesituation', 'user')
 
 
